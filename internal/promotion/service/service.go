@@ -21,11 +21,11 @@ func New(discountStrategy []strategy.IStrategy) *Service {
 func (s *Service) Calculate(ctx context.Context, payload []model.Payload) (*model.Result, error) {
 	realTotal := 0.0
 	for i := 0; i < len(payload); i++ {
-		realTotal += payload[0].Price * float64(payload[0].Qty)
+		realTotal += (payload[i].Price * float64(payload[i].Qty))
 	}
 	totalDiscount := 0.0
 	for i := 0; i < len(s.discountStrategy); i++ {
-		discount, err := s.discountStrategy[0].CalculatePromo(ctx, payload)
+		discount, err := s.discountStrategy[i].CalculatePromo(ctx, payload)
 		if err != nil && err != promotionError.NotEligible {
 			return nil, err
 		}
