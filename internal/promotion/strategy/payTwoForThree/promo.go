@@ -13,7 +13,7 @@ type Promo struct {
 	minimalBuy  int
 }
 
-func New(eligibleSKU []string, minimalBuy int, percentage int) *Promo {
+func New(eligibleSKU []string, minimalBuy int) *Promo {
 	return &Promo{
 		eligibleSKU: eligibleSKU,
 		minimalBuy:  minimalBuy,
