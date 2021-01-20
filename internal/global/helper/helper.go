@@ -3,7 +3,9 @@ package helper
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/fadhilnurmahardi/simple-promotion/internal/global/model"
@@ -52,4 +54,9 @@ func LogRequest(logger log.Logger) endpoint.Middleware {
 			return f(ctx, request)
 		}
 	}
+}
+
+func TwoDigit(amount float64) float64 {
+	amount, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", amount), 64)
+	return amount
 }
