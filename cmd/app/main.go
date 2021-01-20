@@ -5,7 +5,8 @@ import (
 	"os"
 
 	"github.com/fadhilnurmahardi/simple-promotion/cmd/containerService"
-	"github.com/fadhilnurmahardi/simple-promotion/cmd/routes"
+	"github.com/fadhilnurmahardi/simple-promotion/cmd/routes/gql"
+	httpRoutes "github.com/fadhilnurmahardi/simple-promotion/cmd/routes/http"
 	"github.com/fadhilnurmahardi/simple-promotion/config"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -26,6 +27,7 @@ func main() {
 	var g group.Group
 	{
 		httpLogger := log.With(logger, "component", "http")
+		gqlLogger := log.With(logger, "component", "gql")
 		router := chi.NewRouter()
 		corsHandler := cors.New(cors.Options{
 			AllowedOrigins:   []string{"*"},
@@ -36,7 +38,8 @@ func main() {
 			MaxAge:           300,
 		})
 		router.Use(corsHandler.Handler)
-		router.Mount("/v1", routes.MakeHandler(container, httpLogger))
+		router.Mount("/v1", httpRoutes.MakeHandler(container, httpLogger))
+		router.Mount("/gql", gql.MakeHandler(container, gqlLogger))
 
 		g.Add(func() error {
 			_ = logger.Log("transport", "debug/HTTP", "addr", configData.HTTPAddress)

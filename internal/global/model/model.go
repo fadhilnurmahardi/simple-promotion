@@ -8,3 +8,7 @@ type TransportError struct {
 func (e *TransportError) Error() string {
 	return e.Err.Error()
 }
+
+type Query struct {
+	Query string `json:"query"`
+}
