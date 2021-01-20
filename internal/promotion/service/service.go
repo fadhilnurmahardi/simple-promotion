@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 
 	promotionError "github.com/fadhilnurmahardi/simple-promotion/internal/promotion/error"
 	"github.com/fadhilnurmahardi/simple-promotion/internal/promotion/model"
@@ -34,8 +36,13 @@ func (s *Service) Calculate(ctx context.Context, payload []model.Payload) (*mode
 		}
 	}
 	return &model.Result{
-		Total:          realTotal,
-		Discount:       totalDiscount,
-		TotalAfterDisc: realTotal - totalDiscount,
+		Total:          s.twoDigit(realTotal),
+		Discount:       s.twoDigit(totalDiscount),
+		TotalAfterDisc: s.twoDigit(realTotal - totalDiscount),
 	}, nil
+}
+
+func (s *Service) twoDigit(amount float64) float64 {
+	amount, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", amount), 64)
+	return amount
 }
