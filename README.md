@@ -1,5 +1,7 @@
 # simple-promotion
 
+Service to handle promotion product with different type of promotion. Can be call use HTTP or Graphql (See API docs below.)
+
 ## Download Depedency
 
 ```go mod download```
